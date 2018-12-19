@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Markers</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #idbt{
+position: absolute;
+top:300px;
+        z-index: 3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <button id="idbt" onclick="myFunction()">Click me</button>
+    <script>
+  var marker;
+  var poilinea;
+  var idxmark=0;
+  var midxmarks=[];
+  var mmarks=[];
+var ic2="iconf.png";
+      var larray=[];
+//2.184844, -73.788309
+      function initMap() {//2.18775741464856-73.78216861761007
+        var myLatLng ={lat:2.18775741464856, lng:-73.78216861761007};
+
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: myLatLng
+        });
+map.addListener('click',function (e){
+mmarks.push(new google.maps.Marker({
+          position: e.latLng,
+          map: map,
+          title: 'dos',
+          giovanni:"si soy giovanni",
+          draggable:true,
+          icon:"iconf.png",
+          idxm:idxmark
+        }));
+midxmarks.push({idx:idxmark,mark:mmarks[idxmark]});
+mmarks[idxmark].addListener('click',function (e){
+
+  this.setTitle(String(midxmarks[this.idxm].idx));
+ 
+});
+
+mmarks[idxmark].addListener('rightclick',function(e){
+alert("derecho");
+});
+
+mmarks[idxmark].addListener('dblclick',function(e){
+alert("doble");
+});
+
+
+idxmark=idxmark+1;
+
+
+});
+        marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!',
+          giovanni:"si soy giovanni",
+          draggable:true,
+          icon:"iconf2.png"
+        });
+
+
+
+      }
+
+
+
+    function myFunction(){
+
+     console.log(marker.position.lat()+""+marker.position.lng()); 
+    }
+    </script>
+    <script async defer
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV4ya46Yoag-iGeJb5SUwZ2q1Irx0UjnU&callback=initMap">
+    </script>
+  </body>
+</html>
