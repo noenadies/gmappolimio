@@ -52,21 +52,25 @@ mmarks.push(new google.maps.Marker({
           giovanni:"si soy giovanni",
           draggable:true,
           icon:"iconf.png",
-          idxm:idxmark
+          idxm:idxmark,
+          vecesclik:0
         }));
 midxmarks.push({idx:idxmark,mark:mmarks[idxmark]});
 mmarks[idxmark].addListener('click',function (e){
 
   this.setTitle(String(midxmarks[this.idxm].idx));
- 
+ this.setLabel("");
 });
 
 mmarks[idxmark].addListener('rightclick',function(e){
 alert("derecho");
+
 });
 
 mmarks[idxmark].addListener('dblclick',function(e){
-alert("doble");
+this.setLabel(String(this.idxm)+"\n"+this.position);
+
+
 });
 
 
