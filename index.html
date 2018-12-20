@@ -29,16 +29,17 @@ z-index: 5;
       opacity: 0.5;
       }
       #ideliminarm{
-        width: 98%;
+     
         position: absolute;
         top: 20%;
         left:10px;
         z-index: 6
       }
 
-          #idbt{   width: 98%;
+          #idbt{  
 position: absolute;
 top:30%;
+ left:10px;
         z-index: 3;
       }
       #idnewpoli{
@@ -69,14 +70,14 @@ position: absolute;
   <body>
     <div id="map"></div>
     
-    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">eliminar</button><br><button id="idbt" onclick="myFunction()">actualiza line</button>
+    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">&#9746;</button><br><button id="idbt" onclick="myFunction()">&#9736;</button>
 <br><input type="text" id="idnewpoli" value="namepoli">
 
     </div>
 
     <div id="idbarrabaja">
       
-      <button id="idbtmenupoligono" onclick="fmenupoligono()">&#9744;</button>
+      <button id="idbtmenupoligono" onclick="fmenupoligono()">&#9859;<div>&#9776;</div></button>
     </div>
     <script>
 var vw = window.innerWidth;
@@ -163,11 +164,7 @@ idxmark=idxmark+1;
 
 
     function myFunction(){
-for(var i in midxmarks ){
-     console.log(midxmarks[i].marki.position+"  noeleiminado    "+midxmarks.length); 
-   //  console.log(midxmarks[i].markiface); 
 
-}
 rhlinea(midxmarks);
     }
 
@@ -263,6 +260,8 @@ idxmark=0;
 
 
 //
+
+var vfmenupoligono=1;
 function  ocultardiv(st){
 
 document.getElementById(st).style.display = "none";
@@ -272,11 +271,15 @@ function  mostrardiv(st){
 document.getElementById(st).style.display = "block";
 }
 function fmenupoligono(){
-ocultardiv("idmodalmenu");
+  if(vfmenupoligono==1){
+mostrardiv("idmodalmenu");}
+else{ocultardiv("idmodalmenu");}
 
+vfmenupoligono=vfmenupoligono+1;
+if(vfmenupoligono>=2){vfmenupoligono=0;}
 }
 
-
+ocultardiv("idmodalmenu");
 
     </script>
     <script async defer
