@@ -19,7 +19,7 @@
 
       #idbt{
 position: absolute;
-top:300px;
+top:30%;
         z-index: 3;
       }
       #idmodalmenu{
@@ -32,7 +32,9 @@ z-index: 5;
      background: #4DD0E1;
       opacity: 0.5;
       }
-      #ideliminarm{
+      #ideliminarm{position: absolute;
+        top: 20%;
+        left:10px;
         z-index: 6
       }
     </style>
@@ -40,7 +42,7 @@ z-index: 5;
   <body>
     <div id="map"></div>
     
-    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">eliminar</button><br><button id="idbt" onclick="myFunction()">Click me</button></div>
+    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">eliminar</button><br><button id="idbt" onclick="myFunction()">actualiza line</button></div>
     <script>
   var marker;
   var poilinea;
