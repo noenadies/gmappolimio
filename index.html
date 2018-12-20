@@ -65,13 +65,19 @@ position: absolute;
           opacity:1; 
            background: #FFFFFF;
       }
+      #idbtedita{
+        position: absolute;
+top:46%;
+ left:10px;
+        z-index: 3;
+      }
     </style>
   </head>
   <body>
     <div id="map"></div>
     
     <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">&#9746;</button><br><button id="idbt" onclick="myFunction()">&#9736;</button>
-<br><input type="text" id="idnewpoli" value="namepoli">
+<br><button id="idbtedita" onclick="feditarpoli()">&#9736;</button><input type="text" id="idnewpoli" value="namepoli">
 
     </div>
 
@@ -82,6 +88,7 @@ position: absolute;
     <script>
 var vw = window.innerWidth;
 var vh = window.innerHeight;
+ var savearraaypoli=[];
 document.getElementById("idbarrabaja").style.height = String(vh*0.1)+"px";
 /*document.getElementById("idbarrabaja").style.width = String(vw)+"px";
 document.getElementById("idbarrabaja").style.height = String(vh*0.1)+"px";
@@ -225,28 +232,40 @@ flightPath[idxflightPath].line.setPath(flightPlanCoordinates);
 
 var arraypolis=[];
 var ardatopoli=[];
+
 var namepoli="nn";
+var arrtemp=[];
     function crepoligono(idn,ar){
  ardatopoli=[];
 namepoli=document.getElementById("idnewpoli").value;
+
 for(var i in ar){
 
   ardatopoli.push(ar[i].marki.position);
+  arrtemp.push({lat:ar[i].marki.position.lat(),lng:ar[i].marki.position.lng()});
+console.log("aa "+ar[i].marki.position.lat());
+} //console.log("aa "+savearraaypoli.length);
+elimnarmarcasuno(savearraaypoli.length,arrtemp);
+      arraypolis.push({id:idn,name:namepoli,poligono: new google.maps.Polygon({ map: map, path: ardatopoli, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35,name:namepoli,idx:savearraaypoli.length-1 })});
+      arraypolis[savearraaypoli.length-1].poligono.addListener('click',function(e){
 
-}elimnarmarcasuno(namepoli,ardatopoli);
-      arraypolis.push({id:idn,name:namepoli,poligono: new google.maps.Polygon({ map: map, path: ardatopoli, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35,name:namepoli })});
-      arraypolis[0].poligono.addListener('click',function(e){
+      idxpoligono=this.idx;
 
-      
+mmarks=[];
+midxmarks=[];
+idxmark=0;
+      this.setMap(null);
+      console.log("aa "+idxpoligono);
+      feditarpolix(savearraaypoli[0].datos);
       });
-console.log("fp "+ardatopoli)
 
+idxsiguepoli=idxsiguepoli+1;
 
     }
 
-savearraaypoli=[];
+
     function elimnarmarcasuno(nm,pathx){
-savearraaypoli.push({name:nm,datos:pathx});
+savearraaypoli.push({id:nm,datos:pathx});
       for(var i in midxmarks){
       
         midxmarks[i].marki.setMap(null);
@@ -257,8 +276,10 @@ idxmark=0;
 
     }
 
+// variables d epoligono y menus 
 
-
+var idxpoligono=0;
+var idxsiguepoli=0;
 //
 
 var vfmenupoligono=1;
@@ -280,6 +301,64 @@ if(vfmenupoligono>=2){vfmenupoligono=0;}
 }
 
 ocultardiv("idmodalmenu");
+
+
+function feditarpolix(ar){
+
+  console.log("llega  "+ar);
+for(var i in ar){
+
+  console.log(ar[i].lat);
+mmarks.push(new google.maps.Marker({
+          position: {lat:ar[i].lat,lng:ar[i].lng},
+          map: map,
+          title: 'dos',
+       
+          draggable:true,
+          icon:"iconf.png",
+          idxm:idxmark,
+          vecesclik:0
+        }));
+midxmarks.push({idx:idxmark,marki:mmarks[idxmark]});
+
+if(midxmarks.length===1&&cierrap==0){
+mmarks[idxmark].addListener('click',function (e){
+
+  this.setTitle(String(midxmarks[this.idxm].idx));
+ this.setLabel("");
+crepoligono(savearraaypoli.length,midxmarks);
+console.log("dent");cierrap=0;
+});
+}/*else{
+mmarks[idxmark].addListener('click',function (e){
+
+  this.setTitle(String(midxmarks[this.idxm].idx));
+ this.setLabel("");
+});}*/
+
+mmarks[idxmark].addListener('rightclick',function(e){
+console.log(midxmarks[this.idxm].marki.idxm);
+ayudaidmark=this.idxm;
+
+
+});
+
+mmarks[idxmark].addListener('dblclick',function(e){
+//this.setLabel(String(this.idxm)+"\n"+this.position);
+
+ayudaidmark=this.idxm;
+});
+
+
+idxmark=idxmark+1;
+
+}
+
+
+
+}
+
+
 
     </script>
     <script async defer
