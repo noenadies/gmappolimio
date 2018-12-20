@@ -237,6 +237,7 @@ var namepoli="nn";
 var arrtemp=[];
     function crepoligono(idn,ar){
  ardatopoli=[];
+  arrtemp=[];
 namepoli=document.getElementById("idnewpoli").value;
 
 for(var i in ar){
@@ -256,7 +257,7 @@ midxmarks=[];
 idxmark=0;
       this.setMap(null);
       console.log("aa "+idxpoligono);
-      feditarpolix(savearraaypoli[0].datos);
+      feditarpolix(savearraaypoli[idxpoligono].datos);
       });
 
 idxsiguepoli=idxsiguepoli+1;
