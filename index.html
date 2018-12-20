@@ -17,33 +17,68 @@
         padding: 0;
       }
 
-      #idbt{
-position: absolute;
-top:30%;
-        z-index: 3;
-      }
+  
       #idmodalmenu{
 z-index: 5;
         position: absolute;
         top: 3px;
         left: 3px;
-        width: 30%;
+        width: 20%;
         height: 100%;
      background: #4DD0E1;
       opacity: 0.5;
       }
-      #ideliminarm{position: absolute;
+      #ideliminarm{
+        width: 98%;
+        position: absolute;
         top: 20%;
         left:10px;
         z-index: 6
+      }
+
+          #idbt{   width: 98%;
+position: absolute;
+top:30%;
+        z-index: 3;
+      }
+      #idnewpoli{
+position: absolute;
+           top: 49%;
+        left:10px;
+        z-index: 7
+      }
+
+
+      #idbarrabaja{
+        z-index: 1000;
+        position: absolute;
+  background: #4DD0E1;
+      opacity: 0.3;
+      top:90%;
+      width: 100%;
+      height:10%;
       }
     </style>
   </head>
   <body>
     <div id="map"></div>
     
-    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">eliminar</button><br><button id="idbt" onclick="myFunction()">actualiza line</button></div>
+    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">eliminar</button><br><button id="idbt" onclick="myFunction()">actualiza line</button>
+<br><input type="text" id="idnewpoli" value="namepoli">
+
+    </div>
+
+    <div id="idbarrabaja"></div>
     <script>
+var vw = window.innerWidth;
+var vh = window.innerHeight;
+document.getElementById("idbarrabaja").style.height = String(vh*0.1)+"px";
+/*document.getElementById("idbarrabaja").style.width = String(vw)+"px";
+document.getElementById("idbarrabaja").style.height = String(vh*0.1)+"px";
+
+document.getElementById("idbarrabaja").style.position = "absolute";
+document.getElementById("idbarrabaja").style.top = String(vh*0.77)+"px";
+*/
   var marker;
   var poilinea;
   var idxmark=0;
@@ -51,6 +86,7 @@ z-index: 5;
   var mmarks=[];
   var ayudaidmark=0;
   var map;
+  var cierrap=0;
 var ic2="iconf.png";
       var larray=[];
 //2.184844, -73.788309
@@ -61,7 +97,8 @@ var ic2="iconf.png";
        map = new google.maps.Map(document.getElementById('map'), {
           zoom: 18,
           center: myLatLng,
-           mapTypeId: 'satellite'
+           mapTypeId: 'satellite',
+           draggableCursor:'crosshair'
         });
 map.addListener('click',function (e){
 mmarks.push(new google.maps.Marker({
@@ -75,15 +112,27 @@ mmarks.push(new google.maps.Marker({
           vecesclik:0
         }));
 midxmarks.push({idx:idxmark,marki:mmarks[idxmark]});
+
+if(midxmarks.length===1&&cierrap==0){
 mmarks[idxmark].addListener('click',function (e){
 
   this.setTitle(String(midxmarks[this.idxm].idx));
  this.setLabel("");
+crepoligono(0,midxmarks);
+console.log("xxxx");cierrap=0;
 });
+}/*else{
+mmarks[idxmark].addListener('click',function (e){
+
+  this.setTitle(String(midxmarks[this.idxm].idx));
+ this.setLabel("");
+});}*/
 
 mmarks[idxmark].addListener('rightclick',function(e){
 console.log(midxmarks[this.idxm].marki.idxm);
 ayudaidmark=this.idxm;
+
+
 });
 
 mmarks[idxmark].addListener('dblclick',function(e){
@@ -162,14 +211,35 @@ flightPath[idxflightPath].line.setPath(flightPlanCoordinates);
 
   if(flightPath.length>0){
 
-  flightPath[idxflightPath].line.setPath();
-flightPath[flightPath.length].line.setMap(null);
-console.log(flightPath.length);
+  //flightPath[idxflightPath].line.setPath();
+//flightPath[flightPath.length].line.setMap(null);
+//console.log(flightPath.length);
         }
 
 //flightPath[idxflightPath].line.addListener(,function(e){});
 
       //  idxflightPath=idxflightPath+1;
+    }
+    function linesigue (){
+
+     flightPath[idxflightPath].line.setPath(flightPlanCoordinates); 
+    }
+
+var arraypolis=[];
+var ardatopoli=[];
+var namepoli="nn";
+    function crepoligono(idn,ar){
+
+namepoli=document.getElementById("idnewpoli").value;
+for(var i in ar){
+
+  ardatopoli.push(ar[i].marki.position);
+}
+      arraypolis.push({id:idn,name:namepoli,poligono: new google.maps.Polygon({ map: map, path: ardatopoli, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35,name:namepoli })});
+      arraypolis[0].poligono.addListener('click',function(e){
+
+        alert(this.name);
+      });
     }
     </script>
     <script async defer
