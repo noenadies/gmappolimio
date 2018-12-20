@@ -22,17 +22,33 @@ position: absolute;
 top:300px;
         z-index: 3;
       }
+      #idmodalmenu{
+z-index: 5;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 30%;
+        height: 100%;
+     background: #4DD0E1;
+      opacity: 0.5;
+      }
+      #ideliminarm{
+        z-index: 6
+      }
     </style>
   </head>
   <body>
     <div id="map"></div>
-    <button id="idbt" onclick="myFunction()">Click me</button>
+    
+    <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">eliminar</button><br><button id="idbt" onclick="myFunction()">Click me</button></div>
     <script>
   var marker;
   var poilinea;
   var idxmark=0;
   var midxmarks=[];
   var mmarks=[];
+  var ayudaidmark=0;
+  var map;
 var ic2="iconf.png";
       var larray=[];
 //2.184844, -73.788309
@@ -40,7 +56,7 @@ var ic2="iconf.png";
         var myLatLng ={lat:2.18775741464856, lng:-73.78216861761007};
 
 
-        var map = new google.maps.Map(document.getElementById('map'), {
+       map = new google.maps.Map(document.getElementById('map'), {
           zoom: 18,
           center: myLatLng
         });
@@ -55,7 +71,7 @@ mmarks.push(new google.maps.Marker({
           idxm:idxmark,
           vecesclik:0
         }));
-midxmarks.push({idx:idxmark,mark:mmarks[idxmark]});
+midxmarks.push({idx:idxmark,marki:mmarks[idxmark]});
 mmarks[idxmark].addListener('click',function (e){
 
   this.setTitle(String(midxmarks[this.idxm].idx));
@@ -63,14 +79,14 @@ mmarks[idxmark].addListener('click',function (e){
 });
 
 mmarks[idxmark].addListener('rightclick',function(e){
-alert("derecho");
-
+console.log(midxmarks[this.idxm].marki.idxm);
+ayudaidmark=this.idxm;
 });
 
 mmarks[idxmark].addListener('dblclick',function(e){
-this.setLabel(String(this.idxm)+"\n"+this.position);
+//this.setLabel(String(this.idxm)+"\n"+this.position);
 
-
+ayudaidmark=this.idxm;
 });
 
 
@@ -94,8 +110,63 @@ idxmark=idxmark+1;
 
 
     function myFunction(){
+for(var i in midxmarks ){
+     console.log(midxmarks[i].marki.position+"  noeleiminado    "+midxmarks.length); 
+   //  console.log(midxmarks[i].markiface); 
 
-     console.log(marker.position.lat()+""+marker.position.lng()); 
+}
+rhlinea(midxmarks);
+    }
+
+
+    function fdeletmark(){
+
+midxmarks[ayudaidmark].marki.setMap(null);
+midxmarks.pop();
+console.log("elimiado  "+ midxmarks.length);
+    }
+var flightPlanCoordinates=[];
+ var flightPath=[] ;
+ var idxflightPath=0;
+    function rhlinea(st){
+flightPlanCoordinates=[];
+
+      for(var i in st){
+
+flightPlanCoordinates.push(st[i].marki.position);
+
+
+      }
+if(flightPath.length==0){
+ flightPath.push({id:idxflightPath,line:new google.maps.Polyline({
+          path: flightPlanCoordinates,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+          id:idxflightPath
+        })});
+
+}
+
+flightPath[idxflightPath].line.setPath(flightPlanCoordinates);
+
+        flightPath[idxflightPath].line.setMap(map);
+     flightPath[idxflightPath].line.addListener('dblclick',function(e){
+
+     alert(this.strokeColor);
+     });
+
+  if(flightPath.length>0){
+
+  flightPath[idxflightPath].line.setPath();
+flightPath[flightPath.length].line.setMap(null);
+console.log(flightPath.length);
+        }
+
+//flightPath[idxflightPath].line.addListener(,function(e){});
+
+      //  idxflightPath=idxflightPath+1;
     }
     </script>
     <script async defer
