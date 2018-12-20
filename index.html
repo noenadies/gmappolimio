@@ -60,7 +60,8 @@ var ic2="iconf.png";
 
        map = new google.maps.Map(document.getElementById('map'), {
           zoom: 18,
-          center: myLatLng
+          center: myLatLng,
+           mapTypeId: 'satellite'
         });
 map.addListener('click',function (e){
 mmarks.push(new google.maps.Marker({
