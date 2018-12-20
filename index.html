@@ -105,7 +105,7 @@ mmarks.push(new google.maps.Marker({
           position: e.latLng,
           map: map,
           title: 'dos',
-          giovanni:"si soy giovanni",
+       
           draggable:true,
           icon:"iconf.png",
           idxm:idxmark,
@@ -118,7 +118,7 @@ mmarks[idxmark].addListener('click',function (e){
 
   this.setTitle(String(midxmarks[this.idxm].idx));
  this.setLabel("");
-crepoligono(0,midxmarks);
+crepoligono(savearraaypoli.length,midxmarks);
 console.log("xxxx");cierrap=0;
 });
 }/*else{
@@ -146,15 +146,7 @@ idxmark=idxmark+1;
 
 
 });
-        marker = new google.maps.Marker({
-          position: myLatLng,
-          map: map,
-          title: 'Hello World!',
-          giovanni:"si soy giovanni",
-          draggable:true,
-          icon:"iconf2.png"
-        });
-
+       
 
 
       }
@@ -229,17 +221,34 @@ var arraypolis=[];
 var ardatopoli=[];
 var namepoli="nn";
     function crepoligono(idn,ar){
-
+ ardatopoli=[];
 namepoli=document.getElementById("idnewpoli").value;
 for(var i in ar){
 
   ardatopoli.push(ar[i].marki.position);
-}
+
+}elimnarmarcasuno(namepoli,ardatopoli);
       arraypolis.push({id:idn,name:namepoli,poligono: new google.maps.Polygon({ map: map, path: ardatopoli, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35,name:namepoli })});
       arraypolis[0].poligono.addListener('click',function(e){
 
-        alert(this.name);
+      
       });
+console.log("fp "+ardatopoli)
+
+
+    }
+
+savearraaypoli=[];
+    function elimnarmarcasuno(nm,pathx){
+savearraaypoli.push({name:nm,datos:pathx});
+      for(var i in midxmarks){
+      
+        midxmarks[i].marki.setMap(null);
+      }
+mmarks=[];
+midxmarks=[];
+idxmark=0;
+
     }
     </script>
     <script async defer
