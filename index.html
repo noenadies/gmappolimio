@@ -58,6 +58,12 @@ position: absolute;
       width: 100%;
       height:10%;
       }
+      #idbtmenupoligono{
+
+        z-index: 10001;
+          opacity:1; 
+           background: #FFFFFF;
+      }
     </style>
   </head>
   <body>
@@ -68,7 +74,10 @@ position: absolute;
 
     </div>
 
-    <div id="idbarrabaja"></div>
+    <div id="idbarrabaja">
+      
+      <button id="idbtmenupoligono" onclick="fmenupoligono()">&#9744;</button>
+    </div>
     <script>
 var vw = window.innerWidth;
 var vh = window.innerHeight;
@@ -250,6 +259,25 @@ midxmarks=[];
 idxmark=0;
 
     }
+
+
+
+//
+function  ocultardiv(st){
+
+document.getElementById(st).style.display = "none";
+}
+function  mostrardiv(st){
+
+document.getElementById(st).style.display = "block";
+}
+function fmenupoligono(){
+ocultardiv("idmodalmenu");
+
+}
+
+
+
     </script>
     <script async defer
    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV4ya46Yoag-iGeJb5SUwZ2q1Irx0UjnU&callback=initMap">
