@@ -143,23 +143,99 @@ var vcontrol2=0;
 
 function fdistancia(lt2,ln2,lt1,ln1){
 vdistancia=0;
+// calculo en km
 vdistancia=((Math.pow(Math.pow(lt2-lt1,2)+Math.pow(ln2-ln1,2),0.5))*md+bd)*
 Math.pow(Math.pow(lt2-lt1,2)+Math.pow(ln2-ln1,2),0.5)*2/360*Math.PI;
 
-document.getElementById("idnewpoli").value=vdistancia*1000;
+document.getElementById("idnewpoli").value=vdistancia*1000;//mil para metros 
 return vdistancia;
 
+}
+var  arratetasdis=[];
+var  arraareaxy=[];
+var vatlt1=0;
+var vatln1=0;
+var vatlt2=0;
+var vatln2=0;
+var vatunaves=0;
+var varunavxy=0;
+var area=0;
+var arryareafin=[];
+var psumax=0;
+var psumay=0;
+var poliareares=0;
+function fcalarea(arr){
+
+ arratetasdis=[];
+ arraareaxy=[];
+ arryareafin=[];
+
+vatlt1=0;
+atln1=0;
+ arratetasdis.push({teta:0,dis:0});
+  for(var i=0;i<(arr.length-1);i=i+1){
+    vatunaves=vatunaves+1;
+if(vatunaves==1){
+  arratetasdis.push({teta:Math.atan((arr[i+1].lat-arr[0].lat)/(arr[i+1].lng-arr[0].lng))
+*180/Math.PI,dis:1000*fdistancia(arr[i+1].lat,arr[i+1].lng,arr[0].lat,arr[0].lng)
+
+  });
+
+
+}
+  else{
+  arratetasdis.push({teta:Math.atan((arr[i+1].lat-arr[0].lat)/(arr[i+1].lng-arr[0].lng))
+*180/Math.PI,dis:1000*fdistancia(arr[i+1].lat,arr[i+1].lng,arr[0].lat,arr[0].lng)
+
+  });
+  }
+
+}// cierra for
+
+
+for (var i in arratetasdis){
+varunavxy=varunavxy+1;
+if(varunavxy==1){
+
+arraareaxy.push({x:arratetasdis[i].dis*Math.cos(arratetasdis[i].teta/180*Math.PI),
+  y:arratetasdis[i].dis*Math.sin(arratetasdis[i].teta/180*Math.PI)});
+}
+else{
+arraareaxy.push({x:arratetasdis[i].dis*Math.cos(arratetasdis[i].teta/180*Math.PI),
+  y:arratetasdis[i].dis*Math.sin(arratetasdis[i].teta/180*Math.PI)});
+}
+
+
+}
+arraareaxy.push({x:0,y:0});
+
+
+for(var i=0;i<arraareaxy.length-1;i=i+1){
+arryareafin.push({ax:arraareaxy[i+1].y*arraareaxy[i].x,
+  ay:arraareaxy[i+1].x*arraareaxy[i].y});
+
+}
+
+ psumax=0;
+psumay=0;
+ poliareares=0;
+for(var i in arryareafin ){
+
+  psumax=psumax+arryareafin[i].ax;
+  psumay=psumay+arryareafin[i].ay;
+
+
+}
+poliareares=0.5*Math.pow(Math.pow((psumax+(-1*psumay)),2),0.5);
+alert("Area (m2):"  +poliareares);
+document.getElementById("idnewpoli").value="Area (m2):"  +poliareares;
 }
 
 
 
-
-
-
-
       function initMap() {//2.18775741464856-73.78216861761007
-        var myLatLng ={lat:2.18775741464856, lng:-73.78216861761007};
-
+        var myLatLng ={lat:4.644982, lng:-74.156901};
+//4.644982, -74.156901 {lat:2.18775741464856, lng:-73.78216861761007};
 
        map = new google.maps.Map(document.getElementById('map'), {
           zoom: 18,
@@ -214,7 +290,7 @@ mmarks[idxmark].addListener('click',function (e){
   this.setTitle(String(midxmarks[this.idxm].idx));
  this.setLabel("");
 crepoligono(savearraaypoli.length,midxmarks);
-console.log("xxxx");cierrap=0;
+cierrap=0;
 });
 }/*else{
 mmarks[idxmark].addListener('click',function (e){
@@ -224,7 +300,7 @@ mmarks[idxmark].addListener('click',function (e){
 });}*/
 
 mmarks[idxmark].addListener('rightclick',function(e){
-console.log(midxmarks[this.idxm].marki.idxm);
+
 ayudaidmark=this.idxm;
 
 
@@ -258,7 +334,7 @@ rhlinea(midxmarks);
 
 midxmarks[midxmarks.length-1].marki.setMap(null);
 midxmarks.pop();
-console.log("elimiado  "+ midxmarks.length);
+
     }
 var flightPlanCoordinates=[];
  var flightPath=[] ;
@@ -322,8 +398,9 @@ for(var i in ar){
 
   ardatopoli.push(ar[i].marki.position);
   arrtemp.push({lat:ar[i].marki.position.lat(),lng:ar[i].marki.position.lng()});
-console.log("aa "+ar[i].marki.position.lat());
+
 } //console.log("aa "+savearraaypoli.length);
+fcalarea(arrtemp);
 elimnarmarcasuno(savearraaypoli.length,arrtemp);
       arraypolis.push({id:idn,name:namepoli,poligono: new google.maps.Polygon({ map: map, path: ardatopoli, strokeColor: "#FF0000", strokeOpacity: 0.8, strokeWeight: 2, fillColor: "#FF0000", fillOpacity: 0.35,name:namepoli,idx:savearraaypoli.length-1 })});
       arraypolis[savearraaypoli.length-1].poligono.addListener('click',function(e){
@@ -334,7 +411,7 @@ mmarks=[];
 midxmarks=[];
 idxmark=0;
       this.setMap(null);
-      console.log("aa "+idxpoligono);
+ 
       feditarpolix(savearraaypoli[idxpoligono].datos);
       });
 
@@ -384,10 +461,10 @@ ocultardiv("idmodalmenu");
 
 function feditarpolix(ar){
 
-  console.log("llega  "+ar);
+
 for(var i in ar){
 
-  console.log(ar[i].lat);
+
 mmarks.push(new google.maps.Marker({
           position: {lat:ar[i].lat,lng:ar[i].lng},
           map: map,
@@ -406,7 +483,7 @@ mmarks[idxmark].addListener('click',function (e){
   this.setTitle(String(midxmarks[this.idxm].idx));
  this.setLabel("");
 crepoligono(savearraaypoli.length,midxmarks);
-console.log("dent");cierrap=0;
+
 });
 }/*else{
 mmarks[idxmark].addListener('click',function (e){
@@ -416,7 +493,7 @@ mmarks[idxmark].addListener('click',function (e){
 });}*/
 
 mmarks[idxmark].addListener('rightclick',function(e){
-console.log(midxmarks[this.idxm].marki.idxm);
+
 ayudaidmark=this.idxm;
 
 
