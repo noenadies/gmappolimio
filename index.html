@@ -170,6 +170,19 @@ function fcalarea(arr){
  arraareaxy=[];
  arryareafin=[];
 
+ vatlt1=0;
+ vatln1=0;
+ vatlt2=0;
+ vatln2=0;
+ vatunaves=0;
+ varunavxy=0;
+ area=0;
+ arryareafin=[];
+ psumax=0;
+ psumay=0;
+ poliareares=0;
+
+
 vatlt1=0;
 atln1=0;
  arratetasdis.push({teta:0,dis:0});
@@ -228,7 +241,8 @@ for(var i in arryareafin ){
 }
 poliareares=0.5*Math.pow(Math.pow((psumax+(-1*psumay)),2),0.5);
 alert("Area (m2):"  +poliareares);
-document.getElementById("idnewpoli").value="Area (m2):"  +poliareares;
+document.getElementById("idnewpoli").value=poliareares*100/97.09458043+
+ "   "+poliareares;
 }
 
 
@@ -392,7 +406,7 @@ var arrtemp=[];
     function crepoligono(idn,ar){
  ardatopoli=[];
   arrtemp=[];
-namepoli=document.getElementById("idnewpoli").value;
+namepoli="as";//document.getElementById("idnewpoli").value;
 
 for(var i in ar){
 
