@@ -39,13 +39,13 @@ z-index: 5;
           #idbt{  
 position: absolute;
 top:30%;
- left:10px;
+   left:0.1%;
         z-index: 3;
       }
       #idnewpoli{
 position: absolute;
            top: 49%;
-        left:10px;
+          left:0.1%;
         z-index: 7
       }
 
@@ -71,6 +71,14 @@ top:46%;
  left:10px;
         z-index: 3;
       }
+
+        #idbtdistancia{
+
+                position: absolute;
+top:30%;
+ left:40%;
+        z-index: 3;
+      }
     </style>
   </head>
   <body>
@@ -79,6 +87,9 @@ top:46%;
     <div id="idmodalmenu"><button id="ideliminarm" onclick="fdeletmark()">&#9746;</button><br><button id="idbt" onclick="myFunction()">&#9736;</button>
 <br><button id="idbtedita" onclick="feditarpoli()">&#9736;</button><input type="text" id="idnewpoli" value="namepoli">
 
+
+<button id="idbtdistancia" onclick="okdistancia()">&#9736;</button>
+    </div>
     </div>
 
     <div id="idbarrabaja">
@@ -107,6 +118,45 @@ document.getElementById("idbarrabaja").style.top = String(vh*0.77)+"px";
 var ic2="iconf.png";
       var larray=[];
 //2.184844, -73.788309
+
+
+
+var  vokdistancia=0;
+var vcontrolokdis=0;
+function okdistancia(){
+  vcontrolokdis=vcontrolokdis+1;
+  if(vcontrolokdis==1){vokdistancia=1;}
+    else{vokdistancia=0;}
+  if(vcontrolokdis>=2){
+    vcontrolokdis=0;
+  }
+
+}
+var md=5.3765325669213000;
+var bd=6363.066367958300000;
+var vdistancia=0;
+var vdlt2=0;
+var vdlt1=0;
+var vdln2=0;
+var vdln1=0;
+var vcontrol2=0;
+
+function fdistancia(lt2,ln2,lt1,ln1){
+vdistancia=0;
+vdistancia=((Math.pow(Math.pow(lt2-lt1,2)+Math.pow(ln2-ln1,2),0.5))*md+bd)*
+Math.pow(Math.pow(lt2-lt1,2)+Math.pow(ln2-ln1,2),0.5)*2/360*Math.PI;
+
+document.getElementById("idnewpoli").value=vdistancia*1000;
+return vdistancia;
+
+}
+
+
+
+
+
+
+
       function initMap() {//2.18775741464856-73.78216861761007
         var myLatLng ={lat:2.18775741464856, lng:-73.78216861761007};
 
@@ -129,6 +179,34 @@ mmarks.push(new google.maps.Marker({
           vecesclik:0
         }));
 midxmarks.push({idx:idxmark,marki:mmarks[idxmark]});
+
+
+
+if(vokdistancia==1){
+
+  vcontrol2=vcontrol2+1;
+  if(vcontrol2==1){
+ vdlt2=e.latLng.lat();
+
+ vdln2=e.latLng.lng();
+  }
+  else{
+     vdlt1=e.latLng.lat();
+
+ vdln1=e.latLng.lng();
+
+ fdistancia( vdlt2,vdln2, vdlt1,vdln1);
+ vdlt2=0;
+ vdln2=0;
+  vdlt1=0;
+  vdln1=0;
+  }
+if(vcontrol2>=2){
+vcontrol2=0;
+}
+
+  
+}
 
 if(midxmarks.length===1&&cierrap==0){
 mmarks[idxmark].addListener('click',function (e){
